@@ -1,0 +1,13 @@
+{
+  "page component": {
+    "scope": "typescriptreact",
+    "prefix": "!page",
+    "description": "init page",
+    "body": [
+      "export default function ${1:Page}() {",
+      "    return (<>$0</>);",
+      "};",
+      ""
+    ]
+  }
+}
