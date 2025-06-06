@@ -32,12 +32,18 @@ export default function Home() {
       <h2>{author}</h2>
       <ul>
         {postList.map((post, index) => (
-          <Link key={index} href={`/${index}`}>
-            {post.title}, {post.date}
-          </Link>
+          <div className="m-2 p-4 bg-gray-800" key={index}>
+            <Link href={`/${index}`}>
+              {post.title}, {post.date}
+            </Link>
+          </div>
         ))}
       </ul>
-      <Link href={"/content"}>Add Content</Link>
+      <div>
+        <Link className="p-6" href={"/content"}>
+          Add Content
+        </Link>
+      </div>
     </>
   );
 }

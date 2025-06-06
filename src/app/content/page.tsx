@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function ContentEdit() {
+export default function CreateContent() {
     const title = ""
     const content = ""
     return (
