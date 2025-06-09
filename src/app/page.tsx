@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Header from "../components/header";
 
 export default function Home() {
   const postList = [
@@ -24,12 +25,10 @@ export default function Home() {
     },
   ];
 
-  const title = "Blog";
-  const author = "Joey";
   return (
     <>
-      <h1>{title}</h1>
-      <h2>{author}</h2>
+      <Header/>
+
       <ul>
         {postList.map((post, index) => (
           <div className="m-2 p-4 bg-gray-800" key={index}>
@@ -39,7 +38,7 @@ export default function Home() {
           </div>
         ))}
       </ul>
-      <div>
+      <div className="bg-gray-800 w-48 border-2 rounded-2xl">
         <Link className="p-6" href={"/content"}>
           Add Content
         </Link>

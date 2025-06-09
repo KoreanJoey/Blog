@@ -1,0 +1,15 @@
+#4-create-post-view:
+  ☐ All
+  ☐ Analysis Requirements(Statement, Goal ...)
+    ✔ 1. title textfield @done(25-06-09 16:46)
+    ✔ 2. content textfield @done(25-06-09 16:46)
+    ✔ 3. cancel button @done(25-06-09 16:46)
+    ✔ 4. save button @done(25-06-09 16:46)
+
+  ☐ Dev Strategy(Tests, Scenarios, Priorities)
+
+  ☐ Work List: @must @could @should @won't
+
+  ☐ Retrospect
+
+  ☐ Additions

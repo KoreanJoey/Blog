@@ -1,6 +1,6 @@
-PostDetailView:
-  ☐ Post title
-  ☐ Content
+CreatePostView:
+  ✔ Post title @done(25-06-09 15:28)
+  ✔ Content @done(25-06-09 15:28)
   ☐ Cancel button
   ☐ Add button
 

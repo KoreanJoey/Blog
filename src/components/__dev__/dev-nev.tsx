@@ -11,11 +11,11 @@ const links: LinkItem[] = [
     href: "/",
   },
   {
-    tag: "Create Content",
+    tag: "Create Post",
     href: "/content",
   },
   {
-    tag: "Content Detail View",
+    tag: "Post Detail View",
     href: "/1",
   },
 ];
