@@ -1,9 +1,9 @@
-CreatePost:
+#6-CreatePost:
   ☐ All
   ☐ Analysis Requirements(Statement, Goal ...)
     ✔ Make state to manage form of post @done(25-06-10 16:14)
-    ☐ Add logic to check title and content is exist in form and make the button available
-    ☐ Maked function and put in button
+    ✔ Add logic to check title and content is exist in form and make the button available @done(25-06-10 17:39)
+    ✔ Maked function and put in button @done(25-06-10 17:53)
     ☐ Add logic in the function that after button pressed, send api to save data in database
     ☐ Add logic to receive respond and navigate to home page
   ☐ Dev Strategy(Tests, Scenarios, Priorities)
