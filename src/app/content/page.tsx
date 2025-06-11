@@ -47,9 +47,13 @@ export default function CreateContent() {
         if (!resp.ok) {
           throw new Error("error!!!");
         }
+        console.log("res", resp);
+
         return resp.json();
       })
-      .then(() => {
+      .then((data) => {
+        console.log("DEBUG: ", data);
+
         console.log("SUCCESS");
         setTitle("");
         setContent("");

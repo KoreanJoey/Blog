@@ -1,11 +1,40 @@
+import { posts } from "./db";
+
 export async function GET(request: Request) {
   return new Response("HELLO");
 }
 
 export async function POST(request: Request) {
+  return postController(request);
+}
+
+const postController = async (request: Request) => {
   const body = await request.json();
 
-  console.log("DEBUG: body - ", body);
+  if (!body.title || !body.content) {
+    return new Response("Error in request body");
+  }
 
-  return new Response(JSON.stringify(body));
-}
+  const postId = Math.random().toString(16).slice(2);
+
+  const post = {
+    id: postId,
+    ...body,
+  };
+
+  posts.push(post);
+
+  const savedPost = posts.find((post) => post.id === postId);
+
+  if (!savedPost) {
+    return new Response("Error: The post is not saved");
+  }
+
+  const response = {
+    status: 200,
+    statusText: "PostSavedWell!",
+    data: savedPost,
+  };
+
+  return new Response(JSON.stringify(response));
+};

@@ -1,0 +1,28 @@
+#7-Impl Server:
+  ☐ All
+  ☐ Analysis Requirements(Statement, Goal ...)
+     ✔ Request Body Parsing @done(25-06-11 16:32)
+        ✔ 1. 데이터 받기, 받은 데이터 형식 변화(string을 json으로 변환) @done(25-06-11 16:33)
+
+     ✔  Validation guard @done(25-06-11 16:49)
+
+        ✔ 1. 받은 데이터에 대한 데이터 유효성 검사 @done(25-06-11 16:49)
+
+     ✔ Business Logic @done(25-06-11 17:07)
+
+        ✔ 1. 데이터를 사용하여 로직 구성(데이터에 저장 등..) @done(25-06-11 17:07)
+
+     ✔ 비즈니스 로직의 결과에 대한 CRUD에 해당하는 유효성 검사 (Business Logic result checking) @done(25-06-11 17:15)
+        ✔ 데이터 베이스에서 해당 아이디의 데이터를 가져와서 존재하는지 @done(25-06-11 17:15)
+
+      ✔ Create Response @done(25-06-11 17:38)
+
+     ✔ Return Response @done(25-06-11 17:38)
+
+  ☐ Dev Strategy(Tests, Scenarios, Priorities)
+
+  ☐ Work List: @must @could @should @won't
+
+  ☐ Retrospect
+
+  ☐ Additions
