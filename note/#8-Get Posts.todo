@@ -1,0 +1,17 @@
+#8-Get Posts:
+  ☐ All
+  ☐ Analysis Requirements(Statement, Goal ...)
+    ✔ 데이터 데이터베이스로부터 불러와서 어레이 만들기 @done(25-06-12 17:26)
+    ✘ 불러온 데이터 유효성 검사 @cancelled(25-06-12 16:50)
+      우리가 만든 코드가 아닌 기존의 코드이기 때문에 테스트는 우리가 아닌 만든 쪽에서 진행.
+    ✔ Response에 불러온 데이터 넣어주기 @done(25-06-12 17:26)
+    ✔ Return Response @done(25-06-12 17:26)
+
+
+  ☐ Dev Strategy(Tests, Scenarios, Priorities)
+
+  ☐ Work List: @must @could @should @won't
+
+  ☐ Retrospect
+
+  ☐ Additions

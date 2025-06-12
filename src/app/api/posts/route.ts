@@ -1,8 +1,20 @@
 import { posts } from "./db";
 
-export async function GET(request: Request) {
-  return new Response("HELLO");
+export async function GET() {
+  return getAllPosts();
 }
+
+const getAllPosts = async () => {
+  const postsAll = posts;
+
+  const response = {
+    status: 200,
+    statusText: "GetAllPostsWell",
+    data: postsAll,
+  };
+
+  return Response.json(response);
+};
 
 export async function POST(request: Request) {
   return postController(request);
