@@ -1,0 +1,15 @@
+#9-HTTP Method:
+  ☐ All
+  ☐ Analysis Requirements(Statement, Goal ...)
+    ✔ 포스트 하나를 데이터베이스로부터 find해서 담기 @done(25-06-12 18:07)
+    ✔ Response에 불러온 데이터 넣어주기 @done(25-06-12 18:09)
+    ✔ Return Response @done(25-06-12 18:38)
+
+    ✔ 아이다와 맞는 포스트가 있는지 유효성 검사 @done(25-06-12 18:40)
+  ☐ Dev Strategy(Tests, Scenarios, Priorities)
+
+  ☐ Work List: @must @could @should @won't
+
+  ☐ Retrospect
+
+  ☐ Additions
