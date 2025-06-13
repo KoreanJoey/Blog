@@ -36,7 +36,7 @@ export default function CreateContent() {
       content,
     };
 
-    fetch("/api/posts", {
+    fetch("/api/posts/", {
       method: "POST",
       headers: {
         "Content-type": "applicaiton/json",

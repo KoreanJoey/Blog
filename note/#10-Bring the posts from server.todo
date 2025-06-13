@@ -1,0 +1,13 @@
+#10-Bring the posts from server:
+  ☐ All
+  ☐ Analysis Requirements(Statement, Goal ...)
+    ✔ call the get function @done(25-06-13 16:35)
+    ✔ save the data from Response into variable @done(25-06-13 16:35)
+    ✔ return the variable @done(25-06-13 16:35)
+  ☐ Dev Strategy(Tests, Scenarios, Priorities)
+
+  ☐ Work List: @must @could @should @won't
+
+  ☐ Retrospect
+
+  ☐ Additions
