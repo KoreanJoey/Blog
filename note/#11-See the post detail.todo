@@ -1,0 +1,14 @@
+#11-See the post detail:
+  ☐ All
+  ☐ Analysis Requirements(Statement, Goal ...)
+    ✔ when the post is pressed, sending the id in params and move to detail page @done(25-06-16 15:54)
+    ✔ bring that post using params from the server @done(25-06-16 15:54)
+    ✔ save the post in the variable and return @done(25-06-16 15:54)
+    ✔ display the post @done(25-06-16 15:54)
+  ☐ Dev Strategy(Tests, Scenarios, Priorities)
+
+  ☐ Work List: @must @could @should @won't
+
+  ☐ Retrospect
+
+  ☐ Additions

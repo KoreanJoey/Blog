@@ -29,6 +29,7 @@ export default function Home() {
   // ];
 
   interface Post {
+    id: string;
     title: string;
     content: string;
   }
@@ -54,9 +55,9 @@ export default function Home() {
       <Header />
 
       <ul>
-        {postList.map((post, index) => (
-          <div className="m-2 p-4 bg-gray-800" key={index}>
-            <Link href={`/${index}`}>{post.title}</Link>
+        {postList.map((post) => (
+          <div className="m-2 p-4 bg-gray-800" key={post.id}>
+            <Link href={`/${post.id}`}>{post.title}</Link>
           </div>
         ))}
       </ul>
