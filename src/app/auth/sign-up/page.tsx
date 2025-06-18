@@ -1,26 +1,79 @@
-"use client"
-
+"use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function SignUp() {
+  const router = useRouter();
 
-    const router = useRouter();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    return (<>
-    <h1>Sign Up</h1>
-    <div className="flex flex-col">
+    fetch("/api/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Basic ${btoa(`${email}:${password}`)}`,
+      },
+      body: JSON.stringify(name),
+    })
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error("Failed to sign up");
+        }
+
+        return resp.json();
+      })
+      .then(() => {
+        setName("");
+        setEmail("");
+        setPassword("");
+
+        router.push("/");
+      })
+      .catch((error) => {
+        console.log(`Error: ${error}`);
+      });
+  };
+
+  return (
+    <>
+      <h1>Sign Up</h1>
+
+      <form onSubmit={handleSubmit} className="flex flex-col">
         <span>Name</span>
-        <input type="text" className="border-2"></input>
+        <input
+          type="text"
+          className="border-2"
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        ></input>
         <span>Email</span>
-        <input type="text" className="border-2"></input>
+        <input
+          type="text"
+          className="border-2"
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        ></input>
         <span>Password</span>
-        <input type="text" className="border-2"></input>
-    </div>
+        <input
+          type="text"
+          className="border-2"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        ></input>
 
-    <button onClick={() => {router.push("/")}} className="border-2 bg-gray-600 p-2 mt-4">
-        Sign Up
-    </button>
-    </>);
-};
+        <button type="submit" className="border-2 bg-gray-600 p-2 mt-4">
+          Sign Up
+        </button>
+      </form>
+    </>
+  );
+}
