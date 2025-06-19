@@ -32,8 +32,9 @@ export default function SignIn() {
 
         setEmail("");
         setPassword("");
-        
-        router.push("/");
+        if (data.message === "login success") {
+          router.push("/");
+        }
       })
       .catch((error) => {
         console.log(`Error in sign in: ${error}`);

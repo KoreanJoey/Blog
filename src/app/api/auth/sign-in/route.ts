@@ -43,6 +43,7 @@ export async function POST(request: Request) {
   console.log("login success, here is your token");
 
   const token = {
+    message: "login success",
     accessToken: "accessToken",
     refreshToken: "refreshToken",
   };
