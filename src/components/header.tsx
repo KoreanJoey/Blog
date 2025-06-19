@@ -16,7 +16,8 @@ export default function Header() {
         </div>
 
         <div>
-          <Link href={"/auth/sign-in"}>Sign In</Link> / <Link href={"/auth/sign-up"}>Sign Up</Link>
+          <Link href={"/auth/sign-in"}>Sign In</Link> /{" "}
+          <Link href={"/auth/sign-up"}>Sign Up</Link>
         </div>
       </div>
     </>

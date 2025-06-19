@@ -1,13 +1,6 @@
-import { randonIdGenerator } from "../../../utils/lib/generator";
-import { users } from "./db";
+import { randonIdGenerator } from "../../../../utils/lib/generator";
+import { users, User } from "../db";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  createdAt: string;
-}
 
 export async function POST(request: Request) {
   const body = await request.json();

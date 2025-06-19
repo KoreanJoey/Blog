@@ -18,6 +18,14 @@ const links: LinkItem[] = [
     tag: "Post Detail View",
     href: "/1",
   },
+  {
+    tag: "Sign Up",
+    href: "/auth/sign-up"
+  },
+  {
+    tag: "Sign In",
+    href: "/auth/sign-in"
+  },
 ];
 
 export default function DevNav() {

@@ -1,0 +1,20 @@
+#12-SignUp:
+  ☐ All
+  ☐ Analysis Requirements(Statement, Goal ...)
+    ✔ Add SignIn & SignUp page ui @done(25-06-16 16:20)
+    ✔ Add useState & form @done(25-06-18 14:42)
+
+  POST
+    ✔ Bring the token, which has email and password out from header, bring the name out from the body. @done(25-06-18 15:04)
+    ✔ Extract the email and the password from the token @done(25-06-18 15:34)
+    ✔ Make User object using email, password and name(add id or CreatedDate) @done(25-06-18 16:21)
+    ✔ Save the User in the database @done(25-06-18 16:21)
+
+
+  ☐ Dev Strategy(Tests, Scenarios, Priorities)
+
+  ☐ Work List: @must @could @should @won't
+
+  ☐ Retrospect
+
+  ☐ Additions

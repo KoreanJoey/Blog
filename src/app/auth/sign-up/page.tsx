@@ -13,7 +13,7 @@ export default function SignUp() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    fetch("/api/sign-up", {
+    fetch("/api/auth/sign-up", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -49,6 +49,7 @@ export default function SignUp() {
         <input
           type="text"
           className="border-2"
+          value={name}
           onChange={(e) => {
             setName(e.target.value);
           }}
@@ -57,6 +58,7 @@ export default function SignUp() {
         <input
           type="text"
           className="border-2"
+          value={email}
           onChange={(e) => {
             setEmail(e.target.value);
           }}
@@ -65,6 +67,7 @@ export default function SignUp() {
         <input
           type="text"
           className="border-2"
+          value={password}
           onChange={(e) => {
             setPassword(e.target.value);
           }}
