@@ -1,16 +1,20 @@
-import { posts } from "./db";
+import { prisma } from "@/utils/prisma/prisma";
 
 export async function GET() {
   return getAllPosts();
 }
 
 const getAllPosts = async () => {
-  const postsAll = posts;
+  const posts = await prisma.post.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
   const response = {
     status: 200,
     statusText: "GetAllPostsWell",
-    data: postsAll,
+    data: posts,
   };
 
   return Response.json(response);
@@ -27,26 +31,24 @@ const postController = async (request: Request) => {
     return new Response("Error in request body");
   }
 
-  const postId = Math.random().toString(16).slice(2);
+  const post = await prisma.post.create({
+    data: {
+      title: body.title,
+      content: body.content,
+      authorId: body.authorId,
+    },
+  });
 
-  const post = {
-    id: postId,
-    ...body,
-  };
-
-  posts.push(post);
-
-  const savedPost = posts.find((post) => post.id === postId);
-
-  if (!savedPost) {
+  if (!post) {
     return new Response("Error: The post is not saved");
   }
 
   const response = {
     status: 200,
     statusText: "PostSavedWell!",
-    data: savedPost,
+    data: post,
   };
 
   return new Response(JSON.stringify(response));
 };
+

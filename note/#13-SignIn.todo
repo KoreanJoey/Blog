@@ -1,0 +1,29 @@
+#13-SignIn:
+  ☐ All
+  ☐ Analysis Requirements(Statement, Goal ...)
+   Front : 
+    ✔ useState, @done(25-06-19 15:18)
+    ✔ form,submit, @done(25-06-19 15:18)
+    ✔ handleSubmit() {fetch(”/api/auth/sign-in”,{method: “POST”, email&password들 header로 보내기)}.then(() ⇒ {}).then(() ⇒ {}).catch((error) ⇒ {log error}) @done(25-06-19 15:33)
+
+  Back :
+
+POST {
+
+✔ 1. header에서 token {email, password} 빼기 @done(25-06-19 15:42)
+✔ 2. token에서 email이랑 password 추출하기 @done(25-06-19 15:42)
+✔ 3. db에서 email과 일치하는 객체를 찾고, 변수에 저장, 있는지 확인 ⇒ 없으면 해당 email 없다고 리턴 @done(25-06-19 15:55)
+✔ 4. 변수에 저장된 객체의 password랑 password랑 일치하는지 확인 ⇒ 아닐 경우 비밀번호 틀렸다고 리턴 @done(25-06-19 15:56)
+☐ 5. 맞았다고 칭찬해주고 홈페이지로 이동..?
+
+}
+
+
+
+  ☐ Dev Strategy(Tests, Scenarios, Priorities)
+
+  ☐ Work List: @must @could @should @won't
+
+  ☐ Retrospect
+
+  ☐ Additions
