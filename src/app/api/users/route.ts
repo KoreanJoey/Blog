@@ -1,3 +1,4 @@
+import { User } from "@/generated/prisma";
 import { prisma } from "@/utils/prisma/prisma";
 import bcrypt from "bcryptjs";
 
@@ -53,7 +54,7 @@ const userController = async (request: Request) => {
     return new Response("Error in request body");
   }
 
-  const user = await prisma.user.create({
+  const user: User = await prisma.user.create({
     data: {
       name: body.name,
       email: email,

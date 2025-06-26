@@ -1,13 +1,11 @@
 import { randonIdGenerator } from "../../../../utils/lib/generator";
-import { users, User } from "../db";
-
+import bcrypt from "bcryptjs";
+import { prisma } from "@/utils/prisma/prisma";
 
 export async function POST(request: Request) {
   const body = await request.json();
 
   const authHeaders = request.headers.get("Authorization");
-  console.log("AuthHeaders : ", authHeaders);
-  console.log("auth body : ", body);
 
   if (!authHeaders) {
     return new Response("Auth Header does not exist");
@@ -19,31 +17,39 @@ export async function POST(request: Request) {
     return new Response("Unexpected token");
   }
 
-  const header = headersArray[1];
+  if (headersArray[0].toLowerCase() !== "basic") {
+    return new Response("Auth Header is not Basic");
+  }
 
-  console.log("header : ", header);
+  const header = headersArray[1];
 
   const decoded = Buffer.from(header, "base64").toString("utf-8").split(":");
 
-  console.log("Decoded : ", decoded);
+  if (decoded.length !== 2) {
+    return new Response("Invalid Authorization header format");
+  }
 
-  const email = decoded[0];
-  const password = decoded[1];
-  const userId = randonIdGenerator();
+  if (!body.name) {
+    return new Response("Error in request body");
+  }
 
-  const user: User = {
-    id: userId,
-    name: body,
-    email: email,
-    password: password,
-    createdAt: Date.now().toString(),
-  };
+  const [email, password] = decoded;
 
-  users.push(user);
+  if (!email || !password) {
+    return new Response("Email and password are required");
+  }
 
-  const savedUser = users.find((user) => user.id === userId);
+  const hash = await bcrypt.hash(password, 10);
 
-  if (!savedUser) {
+  const user = await prisma.user.create({
+    data: {
+      name: body.name,
+      email: email,
+      hash: hash,
+    },
+  });
+
+  if (!user) {
     return new Response("Error: The user is not saved");
   }
 
@@ -54,7 +60,6 @@ export async function POST(request: Request) {
   };
 
   console.log(response);
-  
 
   return new Response(JSON.stringify(response));
 }

@@ -1,4 +1,7 @@
-import { users, User } from "../db";
+import { User } from "@/generated/prisma";
+import { prisma } from "@/utils/prisma/prisma";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
   const authHeaders = request.headers.get("Authorization");
@@ -13,40 +16,57 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify("Unexpected token"));
   }
 
-  const header = headersArray[1];
+  const [_, header] = headersArray;
 
   const decoded = Buffer.from(header, "base64").toString("utf-8").split(":");
 
-  const email = decoded[0];
-  const password = decoded[1];
+  const [email, password] = decoded;
 
-  console.log("Decoded : ", decoded);
-  console.log("email : ", email);
-  console.log("password : ", password);
+  const loginUser = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
 
-  const selectedUser = users.find((user) => user.email === email);
-
-  if (!selectedUser) {
-    console.log(selectedUser);
-
-    console.log("selectedUser not found");
-
-    return new Response(JSON.stringify("Invalid email"));
+  if (!loginUser) {
+    return new Response(JSON.stringify("User not found"));
   }
 
-  if (selectedUser.password !== password) {
-    console.log("Invalid password");
+  const isPasswordValid = await bcrypt.compare(password, loginUser.hash);
 
+  if (!isPasswordValid) {
     return new Response(JSON.stringify("Invalid password"));
   }
+  // Assuming login is successful, you would typically generate a token here.
 
   console.log("login success, here is your token");
 
-  const token = {
-    message: "login success",
-    accessToken: "accessToken",
-    refreshToken: "refreshToken",
+  const generateToken = (user: User, isRefreshToken: boolean) => {
+    const token = {
+      sub: user.id,
+      role: user.role,
+      type: isRefreshToken ? "refresh" : "access",
+    };
+
+    const secret = isRefreshToken
+      ? process.env.REFRESH_TOKEN_SECRET
+      : process.env.ACCESS_TOKEN_SECRET;
+
+    const expiresIn = isRefreshToken ? "3600h" : "1h";
+
+    return jwt.sign(token, secret!, { expiresIn });
   };
 
-  return new Response(JSON.stringify(token));
+  const token = {
+    accessToken: generateToken(loginUser, false),
+    refreshToken: generateToken(loginUser, true),
+  };
+
+  const response = {
+    status: 200,
+    statusText: "Login successful",
+    data: token,
+  };
+
+  return new Response(JSON.stringify(response));
 }
