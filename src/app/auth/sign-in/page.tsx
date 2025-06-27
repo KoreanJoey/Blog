@@ -27,12 +27,16 @@ export default function SignIn() {
 
         return resp.json();
       })
-      .then((data) => {
-        console.log("data: ", data);
+      .then((json) => {
+        console.log("data: ", json);
 
         setEmail("");
         setPassword("");
-        if (data.message === "login success") {
+
+        if (json.status === 200) {
+          const { accessToken, refreshToken } = json.data;
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
           router.push("/");
         }
       })

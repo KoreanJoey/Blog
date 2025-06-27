@@ -1,3 +1,5 @@
+import { RbacGuard } from "@/app/backend/guard/rbacGuard";
+import { verifyToken } from "@/app/backend/utils/verifyToken";
 import { prisma } from "@/utils/prisma/prisma";
 
 export async function GET() {
@@ -31,6 +33,24 @@ const postController = async (request: Request) => {
     return new Response("Error in request body");
   }
 
+  const accessToken = request.headers.get("Authorization")?.split(" ")[1];
+
+  if (!accessToken) {
+    return new Response("Error: No access token");
+  }
+
+  const decoded = verifyToken(accessToken);
+
+  if (typeof decoded === "string") {
+    return new Response("Error: Invalid token");
+  }
+
+  const accessPermission = RbacGuard(decoded.role, "USER");
+
+  if (!accessPermission) {
+    return new Response("Error: Unauthorized");
+  }
+
   const post = await prisma.post.create({
     data: {
       title: body.title,
@@ -51,4 +71,3 @@ const postController = async (request: Request) => {
 
   return new Response(JSON.stringify(response));
 };
-

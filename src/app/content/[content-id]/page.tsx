@@ -20,7 +20,7 @@ export default function ContentDetailView() {
   
 
   useEffect(() => {
-    fetch(`/api/${postId}`)
+    fetch(`/api/posts/${postId}`)
       .then((resp) => {
         if (!resp.ok) {
           throw new Error("error!!!");

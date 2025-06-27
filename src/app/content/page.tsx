@@ -31,6 +31,13 @@ export default function CreateContent() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      router.push("/auth/sign-in");
+      return;
+    }
+
     const post = {
       title,
       content,
@@ -40,6 +47,7 @@ export default function CreateContent() {
       method: "POST",
       headers: {
         "Content-type": "applicaiton/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(post),
     })
