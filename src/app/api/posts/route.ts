@@ -51,11 +51,25 @@ const postController = async (request: Request) => {
     return new Response("Error: Unauthorized");
   }
 
+  if (!decoded.sub) {
+    return new Response("Error: No user id");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: decoded.sub,
+    },
+  });
+
+  if (!user) {
+    return new Response("Error: User not found");
+  }
+
   const post = await prisma.post.create({
     data: {
       title: body.title,
       content: body.content,
-      authorId: body.authorId,
+      authorId: user.id,
     },
   });
 

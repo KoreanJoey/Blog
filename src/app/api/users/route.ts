@@ -1,12 +1,28 @@
+import { RbacGuard } from "@/app/backend/guard/rbacGuard";
+import { verifyToken } from "@/app/backend/utils/verifyToken";
 import { User } from "@/generated/prisma";
 import { prisma } from "@/utils/prisma/prisma";
 import bcrypt from "bcryptjs";
 
-export async function GET() {
-  return getAllUsers();
-}
+export async function GET(request: Request) {
+  const accessToken = request.headers.get("Authorization")?.split(" ")[1];
 
-const getAllUsers = async () => {
+  if (!accessToken) {
+    return new Response("Error: No access token");
+  }
+
+  const decoded = verifyToken(accessToken);
+
+  if (typeof decoded === "string") {
+    return new Response("Error: Invalid token");
+  }
+
+  const accessPermission = RbacGuard(decoded.role, "ADMIN");
+
+  if (!accessPermission) {
+    return new Response("Error: Unauthorized");
+  }
+
   const users = await prisma.user.findMany({
     orderBy: {
       createdAt: "desc",
@@ -20,13 +36,10 @@ const getAllUsers = async () => {
   };
 
   return Response.json(response);
-};
-
-export async function POST(request: Request) {
-  return userController(request);
 }
 
-const userController = async (request: Request) => {
+
+export async function POST(request: Request) {
   const authHeaders = request.headers.get("Authorization");
 
   if (!authHeaders) {
@@ -73,5 +86,7 @@ const userController = async (request: Request) => {
   };
 
   return new Response(JSON.stringify(response));
-};
+}
+
+
 
