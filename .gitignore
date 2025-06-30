@@ -44,3 +44,4 @@ next-env.d.ts
 /postgresql
 
 # prisma
+/src/generated/prisma
