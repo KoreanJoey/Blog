@@ -5,10 +5,9 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ContentDetailView() {
-  const title = "Internship log";
-  const content = "Today was so fun!";
 
-  interface Post {
+
+  interface PostDetail {
     id: string;
     title: string;
     content: string;
@@ -16,7 +15,7 @@ export default function ContentDetailView() {
 
   const params = useParams();
   const postId = params["content-id"];
-  const [post, setPost] = useState<Post>({id: "", title: "", content: ""});
+  const [post, setPost] = useState<PostDetail>({id: "", title: "", content: ""});
   
 
   useEffect(() => {

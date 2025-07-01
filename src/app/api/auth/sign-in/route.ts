@@ -1,72 +1,61 @@
+import { extractBasicToken } from "@/backend/authToken/extractBasicToken";
 import { User } from "@/generated/prisma";
 import { prisma } from "@/utils/prisma/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export async function POST(request: Request) {
-  const authHeaders = request.headers.get("Authorization");
+  try {
+    const [email, password] = extractBasicToken(request);
 
-  if (!authHeaders) {
-    return new Response("Auth Header does not exist");
-  }
+    const loginUser = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
 
-  const headersArray = authHeaders.split(" ");
+    if (!loginUser) {
+      return new Response(JSON.stringify("User not found"));
+    }
 
-  if (headersArray.length != 2) {
-    return new Response(JSON.stringify("Unexpected token"));
-  }
+    const isPasswordValid = await bcrypt.compare(password, loginUser.hash);
 
-  const [_, header] = headersArray;
+    if (!isPasswordValid) {
+      return new Response(JSON.stringify("Invalid password"));
+    }
+    // Assuming login is successful, you would typically generate a token here.
 
-  const decoded = Buffer.from(header, "base64").toString("utf-8").split(":");
+    console.log("login success, here is your token");
 
-  const [email, password] = decoded;
+    const generateToken = (user: User, isRefreshToken: boolean) => {
+      const token = {
+        sub: user.id,
+        role: user.role,
+        type: isRefreshToken ? "refresh" : "access",
+      };
 
-  const loginUser = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
+      const secret = isRefreshToken
+        ? process.env.REFRESH_TOKEN_SECRET
+        : process.env.ACCESS_TOKEN_SECRET;
 
-  if (!loginUser) {
-    return new Response(JSON.stringify("User not found"));
-  }
+      const expiresIn = isRefreshToken ? "3600h" : "1h";
 
-  const isPasswordValid = await bcrypt.compare(password, loginUser.hash);
-
-  if (!isPasswordValid) {
-    return new Response(JSON.stringify("Invalid password"));
-  }
-  // Assuming login is successful, you would typically generate a token here.
-
-  console.log("login success, here is your token");
-
-  const generateToken = (user: User, isRefreshToken: boolean) => {
-    const token = {
-      sub: user.id,
-      role: user.role,
-      type: isRefreshToken ? "refresh" : "access",
+      return jwt.sign(token, secret!, { expiresIn });
     };
 
-    const secret = isRefreshToken
-      ? process.env.REFRESH_TOKEN_SECRET
-      : process.env.ACCESS_TOKEN_SECRET;
+    const token = {
+      accessToken: generateToken(loginUser, false),
+      refreshToken: generateToken(loginUser, true),
+    };
 
-    const expiresIn = isRefreshToken ? "3600h" : "1h";
+    const response = {
+      status: 200,
+      statusText: "Login successful",
+      data: token,
+    };
 
-    return jwt.sign(token, secret!, { expiresIn });
-  };
-
-  const token = {
-    accessToken: generateToken(loginUser, false),
-    refreshToken: generateToken(loginUser, true),
-  };
-
-  const response = {
-    status: 200,
-    statusText: "Login successful",
-    data: token,
-  };
-
-  return new Response(JSON.stringify(response));
+    return new Response(JSON.stringify(response));
+  } catch (error) {
+    return new Response(JSON.stringify(error));
+  }
 }

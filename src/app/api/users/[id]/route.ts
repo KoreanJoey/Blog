@@ -1,5 +1,5 @@
-import { RbacGuard } from "@/app/backend/guard/rbacGuard";
-import { verifyToken } from "@/app/backend/utils/verifyToken";
+import { RbacGuard } from "@/backend/guard/rbacGuard";
+import { verifyToken } from "@/backend/utils/verifyToken";
 import { prisma } from "@/utils/prisma/prisma";
 
 export async function GET(

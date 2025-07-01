@@ -1,43 +1,44 @@
-import { RbacGuard } from "@/app/backend/guard/rbacGuard";
-import { verifyToken } from "@/app/backend/utils/verifyToken";
+import { extractBearerToken } from "@/backend/authToken/extractBearerToken";
+import { RbacGuard } from "@/backend/guard/rbacGuard";
+import { verifyToken } from "@/backend/utils/verifyToken";
 import { User } from "@/generated/prisma";
 import { prisma } from "@/utils/prisma/prisma";
 import bcrypt from "bcryptjs";
 
 export async function GET(request: Request) {
-  const accessToken = request.headers.get("Authorization")?.split(" ")[1];
+  try {
+    const accessToken = extractBearerToken(request);
 
-  if (!accessToken) {
-    return new Response("Error: No access token");
+    const decoded = verifyToken(accessToken);
+
+    const accessPermission = RbacGuard(decoded.role, "ADMIN");
+
+    if (!accessPermission) {
+      return new Response("Error: Unauthorized");
+    }
+
+    const users = await prisma.user.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const response = {
+      status: 200,
+      statusText: "GetAllUsersWell",
+      data: users,
+    };
+
+    return Response.json(response);
+  } catch (error) {
+    return new Response(
+      JSON.stringify({
+        message: (error as Error).message,
+        status: (error as Error).cause as number,
+      })
+    );
   }
-
-  const decoded = verifyToken(accessToken);
-
-  if (typeof decoded === "string") {
-    return new Response("Error: Invalid token");
-  }
-
-  const accessPermission = RbacGuard(decoded.role, "ADMIN");
-
-  if (!accessPermission) {
-    return new Response("Error: Unauthorized");
-  }
-
-  const users = await prisma.user.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  const response = {
-    status: 200,
-    statusText: "GetAllUsersWell",
-    data: users,
-  };
-
-  return Response.json(response);
 }
-
 
 export async function POST(request: Request) {
   const authHeaders = request.headers.get("Authorization");
@@ -87,6 +88,3 @@ export async function POST(request: Request) {
 
   return new Response(JSON.stringify(response));
 }
-
-
-
