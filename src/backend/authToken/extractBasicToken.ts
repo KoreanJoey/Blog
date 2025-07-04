@@ -11,7 +11,11 @@ export const extractBasicToken = (request: Request) => {
     throw new Error("Unexpected token", { cause: 401 });
   }
 
-  const [_, header] = headersArray;
+  const [basic, header] = headersArray;
+
+  if (basic.toLowerCase() !== "basic") {
+    throw new Error("Unexpected token", { cause: 401 });
+  }
 
   const decoded = Buffer.from(header, "base64").toString("utf-8").split(":");
 
