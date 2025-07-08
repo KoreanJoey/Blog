@@ -1,8 +1,8 @@
 import { extractBasicToken } from "@/backend/authToken/extractBasicToken";
-import { User } from "@/generated/prisma";
 import { prisma } from "@/utils/prisma/prisma";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import { generateToken } from "@/backend/utils/generateToken";
+import { TokenType } from "@/backend/utils/tokenType";
 
 export async function POST(request: Request) {
   try {
@@ -23,29 +23,10 @@ export async function POST(request: Request) {
     if (!isPasswordValid) {
       return new Response(JSON.stringify("Invalid password"));
     }
-    // Assuming login is successful, you would typically generate a token here.
-
-    console.log("login success, here is your token");
-
-    const generateToken = (user: User, isRefreshToken: boolean) => {
-      const token = {
-        sub: user.id,
-        role: user.role,
-        type: isRefreshToken ? "refresh" : "access",
-      };
-
-      const secret = isRefreshToken
-        ? process.env.REFRESH_TOKEN_SECRET
-        : process.env.ACCESS_TOKEN_SECRET;
-
-      const expiresIn = isRefreshToken ? "3600h" : "1h";
-
-      return jwt.sign(token, secret!, { expiresIn });
-    };
 
     const token = {
-      accessToken: generateToken(loginUser, false),
-      refreshToken: generateToken(loginUser, true),
+      accessToken: generateToken(loginUser, TokenType.ACCESS),
+      refreshToken: generateToken(loginUser, TokenType.REFRESH),
     };
 
     const response = {

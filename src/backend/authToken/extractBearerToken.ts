@@ -11,7 +11,11 @@ export const extractBearerToken = (request: Request) => {
     throw new Error("Error: No access token", { cause: 401 });
   }
 
-  const [_, accessToken] = rawToken;
+  const [bearer, extractedToken] = rawToken;
 
-  return accessToken;
+  if (bearer.toLowerCase() !== "bearer") {
+    throw new Error("Error: Unexpected token", { cause: 401 });
+  }
+
+  return extractedToken;
 };
