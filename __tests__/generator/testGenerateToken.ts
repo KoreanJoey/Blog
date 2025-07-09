@@ -6,11 +6,12 @@ export const testGenerateToken = (tokenType: TokenType) => {
     sub: "1",
   };
 
-  const secret = tokenType === TokenType.REFRESH
-    ? process.env.REFRESH_TOKEN_SECRET!
-    : process.env.ACCESS_TOKEN_SECRET!;
+  const secret =
+    tokenType === TokenType.REFRESH
+      ? process.env.REFRESH_TOKEN_SECRET!
+      : process.env.ACCESS_TOKEN_SECRET!;
 
-  const expiresIn = tokenType === TokenType.REFRESH ? "1min" : "1sec";
+  const expiresIn = tokenType === TokenType.REFRESH ? "1min" : "1000ms";
 
   return jwt.sign(token, secret, { expiresIn });
 };

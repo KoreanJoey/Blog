@@ -48,21 +48,15 @@ describe("verifyToken", () => {
     expect(() => verifyToken(token)).toThrow(expectedError);
   });
 
-  // test("Case 4: Expired token", async () => {
-  //   // given
-  //   let token: string;
+  test("Case 4: Expired token", async () => {
+    // given
+    const token = testGenerateToken(TokenType.ACCESS);
 
-  //   const prom = new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       token = testGenerateToken(TokenType.ACCESS);
-  //       resolve(token);
-  //     }, 2000);
-  //   });
+    // Wait for the token to expire
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  //   await prom;
-
-  //   const expectedError = new Error("Error: Invalid token", { cause: 401 });
-  //   // then
-  //   expect(() => verifyToken(token)).toThrow(expectedError);
-  // });
+    const expectedError = new Error("Error: Invalid token", { cause: 401 });
+    // then
+    expect(() => verifyToken(token)).toThrow(expectedError);
+  });
 });
